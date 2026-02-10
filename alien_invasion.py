@@ -1,39 +1,40 @@
 import sys
 import pygame
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
-    """This class will manage game assests and behavior."""
+    """Overall class to manage game assets and behavior."""
 
     def __init__(self):
-        """Initialize the game, and create game resourses."""
+        """Initialize the game, and create game resources."""
         pygame.init()
-        self.clock = pygame.time.Clock()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((1200, 800))
+        # Set up the display window
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
-        #background color
-        self.bg_color = (230, 230, 230)
+        # Create the ship instance (This was missing before!)
+        self.ship = Ship(self)
 
-        def run_game(self):
-            """This is the main loop for the game."""
-            while True:
-                # Watch for keyboard and mouse events.
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        sys.exit()
+    def run_game(self):
+        """Start the main loop for the game."""
+        while True:
+            # Watch for keyboard and mouse events.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
 
-                # Redraw the screen during each pass through the loop.
-                self.screen.fill(self.settings.bg_color)
+            # Redraw the screen during each pass through the loop.
+            self.screen.fill(self.settings.bg_color)
+            self.ship.blitme() # Draw the ship
+            
+            # Make the most recently drawn screen visible.
+            pygame.display.flip()
 
-                pygame.display.flip()
-                self.clock.tick(60)
-
-        if __name__ == '__main__':
-            #this will make a game instance, and run the game.
-            ai = AlienInvasion()
-            ai.run.game()
-
-
+if __name__ == '__main__':
+    # Make a game instance, and run the game.
+    ai = AlienInvasion()
+    ai.run_game()
